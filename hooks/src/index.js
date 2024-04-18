@@ -1,4 +1,4 @@
-import { options as _options } from 'preact';
+import _options from 'preact/options';
 
 /** @type {number} */
 let currentIndex;
