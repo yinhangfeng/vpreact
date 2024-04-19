@@ -1,5 +1,5 @@
 import { assign, slice } from './util';
-import { createVNode } from './create-element';
+import { createVNode, isValidElement } from './create-element';
 
 /**
  * Clones the given VNode, optionally adding attributes/props and replacing its
@@ -11,6 +11,9 @@ import { createVNode } from './create-element';
  * @returns {VNode}
  */
 export function cloneElement(vnode, props, children) {
+	if (!isValidElement(vnode)) {
+		return vnode;
+	}
 	let normalizedProps = assign({}, vnode.props),
 		key,
 		ref,

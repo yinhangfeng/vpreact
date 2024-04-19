@@ -4,7 +4,7 @@ import _options from 'preact/options';
 let currentIndex;
 
 /** @type {import('./internal').Component} */
-let currentComponent;
+export let currentComponent;
 
 /** @type {import('./internal').Component} */
 let previousComponent;
@@ -373,23 +373,27 @@ export function useCallback(callback, args) {
  * @param {import('./internal').PreactContext} context
  */
 export function useContext(context) {
-	const provider = currentComponent.context[context._id];
-	// We could skip this call here, but than we'd not call
-	// `options._hook`. We need to do that in order to make
-	// the devtools aware of this hook.
-	/** @type {import('./internal').ContextHookState} */
-	const state = getHookState(currentIndex++, 9);
-	// The devtools needs access to the context object to
-	// be able to pull of the default value when no provider
-	// is present in the tree.
-	state._context = context;
-	if (!provider) return context._defaultValue;
-	// This is probably not safe to convert to "!"
-	if (state._value == null) {
-		state._value = true;
-		provider.sub(currentComponent);
-	}
-	return provider.props.value;
+	const contextValue =
+		currentComponent._globalContext.providers[context._id]?.value ??
+		context._defaultValue;
+	return contextValue;
+	// const provider = currentComponent.context[context._id];
+	// // We could skip this call here, but than we'd not call
+	// // `options._hook`. We need to do that in order to make
+	// // the devtools aware of this hook.
+	// /** @type {import('./internal').ContextHookState} */
+	// const state = getHookState(currentIndex++, 9);
+	// // The devtools needs access to the context object to
+	// // be able to pull of the default value when no provider
+	// // is present in the tree.
+	// state._context = context;
+	// if (!provider) return context._defaultValue;
+	// // This is probably not safe to convert to "!"
+	// if (state._value == null) {
+	// 	state._value = true;
+	// 	provider.sub(currentComponent);
+	// }
+	// return provider.props.value;
 }
 
 /**

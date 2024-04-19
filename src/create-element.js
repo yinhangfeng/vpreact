@@ -1,6 +1,8 @@
 import { slice } from './util';
 import options from './options';
 
+export const REACT_ELEMENT_TYPE = Symbol.for('react.element');
+
 let vnodeId = 0;
 
 /**
@@ -75,7 +77,8 @@ export function createVNode(type, props, key, ref, original) {
 		constructor: undefined,
 		_original: original == null ? ++vnodeId : original,
 		_index: -1,
-		_flags: 0
+		_flags: 0,
+		$$typeof: REACT_ELEMENT_TYPE
 	};
 
 	// Only invoke the vnode hook if this was *not* a direct copy:
@@ -98,4 +101,4 @@ export function Fragment(props) {
  * @returns {vnode is VNode}
  */
 export const isValidElement = vnode =>
-	vnode != null && vnode.constructor == undefined;
+	!!vnode && vnode.$$typeof === REACT_ELEMENT_TYPE;
