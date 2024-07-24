@@ -284,6 +284,12 @@ export namespace h {
 	export import JSX = JSXInternal;
 }
 
+export function createVNode(
+	type: VNode['type'],
+	props: (ClassAttributes<T> & P) | null,
+	...children: ComponentChildren[]
+): VNode<ClassAttributes<T> & P>;
+
 //
 // Preact render
 // -----------------------------------
