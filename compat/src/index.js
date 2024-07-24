@@ -19,7 +19,7 @@ import {
 	useCallback,
 	useContext,
 	useDebugValue
-} from 'preact/hooks';
+} from 'preact-hooks';
 import { PureComponent } from './PureComponent';
 import { memo } from './memo';
 import { forwardRef } from './forwardRef';
@@ -214,7 +214,7 @@ function didSnapshotChange(inst) {
 	}
 }
 
-export * from 'preact/hooks';
+export * from 'preact-hooks';
 export {
 	version,
 	Children,
